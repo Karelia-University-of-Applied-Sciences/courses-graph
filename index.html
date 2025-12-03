@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Karelia Course Graph</title>
+      <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+      <script src="curriculum.js"></script>
+      <script src="graph.js"></script>
+      <link rel="stylesheet" href="styles.css" />
+   </head>
+   <body>
+      <div id="controls">
+         <input
+            type="text"
+            id="search"
+            placeholder="Search for a course (e.g., 'Programming', 'IC10012')..."
+         />
+         <div id="legend">
+            <strong>Instructions:</strong> Click on a node to highlight its
+            prerequisites and dependencies. Use the search bar to find specific
+            courses. Mouse wheel to zoom, drag to pan.
+         </div>
+      </div>
+      <div id="graph"></div>
+
+      <script>
+         // prepare data for ECharts
+         const nodes = curriculum.courses.map((course) => ({
+            id: course.code,
+            name: course.name,
+            code: course.code,
+            credits: course.credits,
+            symbolSize: 30,
+            label: {
+               show: true,
+               fontSize: 10,
+               opacity: 1,
+               textBorderColor: "#fff",
+               textBorderWidth: 2,
+            },
+            itemStyle: {
+               color: "#4CAF50",
+               opacity: 0,
+            },
+         }));
+
+         const links = graph.map((link) => ({
+            source: link.source,
+            target: link.target,
+            lineStyle: {
+               curveness: 0.2,
+            },
+         }));
+
+         const chart = echarts.init(document.getElementById("graph"));
+
+         let originalOption = {
+            tooltip: {
+               formatter: function (params) {
+                  if (params.dataType === "node") {
+                     return `<strong>${params.data.code}</strong><br/>${params.data.credits} credits`;
+                  }
+                  return "";
+               },
+            },
+            series: [
+               {
+                  type: "graph",
+                  layout: "force",
+                  data: nodes,
+                  links: links,
+                  roam: true,
+                  label: {
+                     show: true,
+                     position: "inside",
+                     fontSize: 9,
+                     formatter: "{b}",
+                  },
+                  edgeSymbol: ["none", "arrow"],
+                  edgeSymbolSize: 8,
+                  force: {
+                     repulsion: 1000,
+                     gravity: 0.4,
+                     edgeLength: 100,
+                     elasticity: 0.2,
+                     layoutAnimation: true,
+                  },
+                  emphasis: {
+                     label: {
+                        fontSize: 12,
+                        fontWeight: "bold",
+                     },
+                  },
+                  lineStyle: {
+                     color: "#999",
+                     curveness: 0.2,
+                     width: 2,
+                  },
+               },
+            ],
+         };
+
+         chart.setOption(originalOption);
+
+         // handle click events
+         chart.on("click", function (params) {
+            if (params.dataType === "node") {
+               highlightNode(params.data.id);
+            }
+         });
+
+         let selectedNodeId = null;
+
+         function highlightNode(nodeId) {
+            selectedNodeId = nodeId;
+
+            // Build prerequisite chain with depth levels
+            const nodeDepths = new Map();
+            const visitedPrereqs = new Set();
+            const prerequisiteLinks = [];
+            const dependencyNodes = new Set();
+            const dependencyLinks = [];
+
+            // Recursive function to find all prerequisites with depth
+            function findPrerequisites(currentNode, depth = 0) {
+               if (visitedPrereqs.has(currentNode)) return;
+               visitedPrereqs.add(currentNode);
+
+               if (
+                  !nodeDepths.has(currentNode) ||
+                  nodeDepths.get(currentNode) > depth
+               ) {
+                  nodeDepths.set(currentNode, depth);
+               }
+
+               links.forEach((link) => {
+                  if (link.target === currentNode) {
+                     prerequisiteLinks.push({ ...link, depth: depth });
+                     findPrerequisites(link.source, depth + 1);
+                  }
+               });
+            }
+
+            findPrerequisites(nodeId);
+
+            links.forEach((link) => {
+               if (link.source === nodeId) {
+                  dependencyNodes.add(link.target);
+                  dependencyLinks.push(link);
+               }
+            });
+
+            const maxDepth = Math.max(...Array.from(nodeDepths.values()), 0);
+
+            // update visualization
+            const highlightedNodes = nodes.map((node) => {
+               const isSelected = node.id === nodeId;
+               const isPrerequisite =
+                  nodeDepths.has(node.id) && node.id !== nodeId;
+               const isDependency = dependencyNodes.has(node.id);
+               const isConnected = isSelected || isPrerequisite; // || isDependency;
+
+               return {
+                  ...node,
+                  itemStyle: {
+                     color: isSelected
+                        ? "#FF9800"
+                        : isConnected
+                        ? "#4CAF50"
+                        : "#ccc",
+                     opacity: 0,
+                  },
+                  label: {
+                     show: true,
+                     fontSize: isSelected ? 12 : isConnected ? 10 : 8,
+                     fontWeight: isSelected ? "bold" : "normal",
+                     opacity: isConnected ? 1 : 0.5,
+                     textBorderColor: "#fff",
+                     textBorderWidth: 2,
+                  },
+               };
+            });
+
+            const highlightedLinks = links.map((link) => {
+               // check if this is a prerequisite link
+               const prereqLink = prerequisiteLinks.find(
+                  (pl) => pl.source === link.source && pl.target === link.target
+               );
+
+               if (prereqLink) {
+                  // calculate opacity based on depth (closer = brighter)
+                  const invDepth = 1 - prereqLink.depth / (maxDepth + 1);
+                  const opacity = maxDepth > 0 ? invDepth * 0.9 : 1;
+                  console.log(opacity);
+                  return {
+                     ...link,
+                     lineStyle: {
+                        color: "#FF5722",
+                        width: invDepth * 3,
+                        opacity: opacity,
+                        curveness: 0.2,
+                     },
+                  };
+               } else {
+                  return {
+                     ...link,
+                     lineStyle: {
+                        color: "#ccc",
+                        width: 1,
+                        opacity: 1,
+                        curveness: 0.2,
+                     },
+                  };
+               }
+            });
+
+            chart.setOption({
+               series: [
+                  {
+                     data: highlightedNodes,
+                     links: highlightedLinks,
+                  },
+               ],
+            });
+         }
+
+         function resetGraph() {
+            selectedNodeId = null;
+            chart.setOption(originalOption);
+         }
+
+         window.resetGraph = resetGraph;
+
+         // search functionality
+         document
+            .getElementById("search")
+            .addEventListener("input", function (e) {
+               const searchTerm = e.target.value.toLowerCase();
+
+               if (searchTerm === "") {
+                  resetGraph();
+                  return;
+               }
+
+               const matchedCourse = curriculum.courses.find(
+                  (c) =>
+                     c.code.toLowerCase().includes(searchTerm) ||
+                     c.name.toLowerCase().includes(searchTerm)
+               );
+
+               console.log(matchedCourse);
+
+               if (matchedCourse) {
+                  highlightNode(matchedCourse.code);
+               }
+            });
+
+         // handle window resize
+         window.addEventListener("resize", function () {
+            chart.resize();
+         });
+      </script>
+   </body>
+</html>
