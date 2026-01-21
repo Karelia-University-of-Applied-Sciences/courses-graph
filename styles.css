@@ -1,41 +1,131 @@
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    overflow: hidden;
-    text-align: center;
+   margin: 0;
+   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+   overflow: hidden;
 }
 
 #controls {
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: rgb(203, 255, 197);
-    position: fixed;
-    z-index: 1;
-    width: 100%
+   padding: 15px;
+   background-color: #f0fdf4;
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+   position: fixed;
+   z-index: 100;
+   width: 100%;
+   box-sizing: border-box;
 }
 
-#search {
-    width: 100%;
-    max-width: 500px;
-    padding: 10px;
-    font-size: 16px;
-    border: 2px solid #ddd;
-    border-radius: 4px;
+.top-bar {
+   display: flex;
+   gap: 12px;
+   align-items: center;
+   justify-content: center;
+   max-width: 1200px;
+   margin: 0 auto;
+}
+
+.btn {
+   padding: 8px 16px;
+   border: none;
+   border-radius: 6px;
+   cursor: pointer;
+   font-weight: 600;
+   white-space: nowrap;
+   transition: background 0.2s;
+}
+
+.btn-primary {
+   background: #04aa0f;
+   color: white;
+}
+.btn-primary:hover {
+   background: #04aa0f;
+}
+
+.search-input {
+   flex: 1;
+   max-width: 250px;
+   padding: 10px;
+   border: 2px solid #e2e8f0;
+   border-radius: 6px;
+   outline: none;
+}
+
+.selection-box {
+   display: none;
+   flex: 2;
+   padding: 10px 15px;
+   background: #ffffff;
+   border: 1px solid #86efac;
+   border-radius: 6px;
+   font-size: 14px;
+   color: #166534;
+}
+
+.admin-panel {
+   display: none;
+   max-width: 800px;
+   margin: 15px auto 0;
+   padding: 20px;
+   background: #f8fafc;
+   border: 1px solid #e2e8f0;
+   border-radius: 8px;
+   text-align: left;
+}
+
+.admin-panel h3 {
+   margin: 0 0 15px 0;
+   font-size: 16px;
+   color: #1e293b;
+}
+
+.admin-input {
+   width: 100%;
+   padding: 12px;
+   border: 2px solid #3b82f6;
+   border-radius: 6px;
+   box-sizing: border-box;
+}
+
+.search-results-dropdown {
+   max-height: 200px;
+   overflow-y: auto;
+   margin-top: 4px;
+   border: 1px solid #cbd5e1;
+   border-radius: 6px;
+   background: white;
+   display: none;
+}
+
+.prereq-list-container {
+   margin-top: 15px;
+   border-top: 1px solid #e2e8f0;
+   padding-top: 15px;
 }
 
 #graph {
-    border-radius: 8px;
     width: 100vw;
     height: 100vh;
     position: absolute;
-    top: 0px;
+    top: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
 
 #legend {
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 14px;
+   margin-top: 12px;
+   font-size: 12px;
+   color: #64748b;
+   text-align: center;
 }
 
+.admin-placeholder {
+   text-align: center;
+   padding: 20px;
+   color: #64748b;
+   font-style: italic;
+   font-size: 14px;
+}
+
+.hidden {
+   display: none !important;
+}
