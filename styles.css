@@ -59,6 +59,24 @@ body {
    border-radius: 6px;
    font-size: 14px;
    color: #166534;
+   align-items: center;
+   gap: 10px;
+}
+
+.btn-copy {
+   background: #3b82f6;
+   color: white;
+   padding: 6px 12px;
+   font-size: 12px;
+   margin-left: auto;
+}
+
+.btn-copy:hover {
+   background: #2563eb;
+}
+
+.btn-copy:active {
+   background: #1d4ed8;
 }
 
 .admin-panel {

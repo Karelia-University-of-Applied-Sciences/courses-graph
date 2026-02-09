@@ -1,6 +1,7 @@
 async function init() {
    setupGraph();
    setupAdminMode();
+   setupCopyPrerequisites();
 
    loadCustomGraph().then(() => {
       if (chart) {

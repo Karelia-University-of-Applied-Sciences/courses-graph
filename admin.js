@@ -22,7 +22,7 @@ function selectCourseForAdmin(courseCode) {
       const selectedCourseText = document.getElementById("selectedCourseText");
       const selectedCourse = document.getElementById("selectedCourse");
       selectedCourseText.textContent = `${course.code} - ${course.name}`;
-      selectedCourse.style.display = "block";
+      selectedCourse.style.display = "flex";
 
       const adminTitle = document.getElementById("adminPanelTitle");
       if (adminTitle) {
@@ -195,3 +195,48 @@ window.removePrereq = async function (source, target) {
    refreshGraph();
    updatePrereqList();
 };
+
+function setupCopyPrerequisites() {
+   const copyBtn = document.getElementById("copyPrereqBtn");
+   
+   copyBtn.addEventListener("click", async () => {
+      if (!currentSelectedCourse) {
+         alert("No course selected!");
+         return;
+      }
+
+      const course = curriculum.courses.find((c) => c.code === currentSelectedCourse);
+      const currentLinks = getMergedGraph();
+      const prereqs = currentLinks.filter(
+         (link) => link.target === currentSelectedCourse,
+      );
+
+      let text = "";
+
+      if (prereqs.length === 0) {
+         text += "No prerequisites\n";
+      } else {
+         prereqs.forEach((link, index) => {
+            const prereqCourse = curriculum.courses.find(
+               (c) => c.code === link.source,
+            );
+            text += `${index + 1}. ${link.source} - ${prereqCourse ? prereqCourse.name : "Unknown"}\n`;
+         });
+      }
+
+      try {
+         await navigator.clipboard.writeText(text);
+         
+         const originalText = copyBtn.textContent;
+         copyBtn.textContent = "✓ Copied!";
+         copyBtn.style.background = "#10b981";
+         
+         setTimeout(() => {
+            copyBtn.textContent = originalText;
+            copyBtn.style.background = "";
+         }, 2000);
+      } catch (err) {
+         alert("Failed to copy to clipboard: " + err.message);
+      }
+   });
+}
