@@ -52,7 +52,6 @@ body {
 
 .selection-box {
    display: none;
-   flex: 2;
    padding: 10px 15px;
    background: #ffffff;
    border: 1px solid #86efac;
@@ -61,6 +60,14 @@ body {
    color: #166534;
    align-items: center;
    gap: 10px;
+   grid-template-columns: auto 1fr auto;
+}
+
+#selectedCourseText {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   min-width: 0;
 }
 
 .btn-copy {

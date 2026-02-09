@@ -22,7 +22,7 @@ function selectCourseForAdmin(courseCode) {
       const selectedCourseText = document.getElementById("selectedCourseText");
       const selectedCourse = document.getElementById("selectedCourse");
       selectedCourseText.textContent = `${course.code} - ${course.name}`;
-      selectedCourse.style.display = "flex";
+      selectedCourse.style.display = "grid";
 
       const adminTitle = document.getElementById("adminPanelTitle");
       if (adminTitle) {
