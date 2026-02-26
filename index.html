@@ -10,27 +10,40 @@
       <script src="storage.js"></script>
       <script src="admin.js"></script>
       <script src="visualization.js"></script>
+      <script src="timeline.js"></script>
       <link rel="stylesheet" href="styles.css" />
    </head>
    <body>
       <div id="controls">
          <div class="top-bar">
-            <button id="adminToggle" class="btn btn-primary">Enter Admin Mode</button>
-            <input type="text" id="search" placeholder="Search for a course..." class="search-input" />
-            
-            <div id="selectedCourse" class="selection-box">
-               <strong>Selected:</strong> <span id="selectedCourseText"></span>
-               <button id="copyPrereqBtn" class="btn btn-copy" title="Copy prerequisites to clipboard">📋</button>
+            <div class="view-toggle">
+               <button class="view-btn active" data-view="timeline" title="Timeline View">Timeline</button>
+               <button class="view-btn" data-view="graph" title="Force Graph View">Graph</button>
+            </div>
+
+            <div class="spec-filter">
+               <button class="spec-btn active" data-filter="both" title="Show all courses">All</button>
+               <button class="spec-btn spec-se" data-filter="se" title="Software Engineering path">&#128309; SE</button>
+               <button class="spec-btn spec-ia" data-filter="ia" title="Intelligent Automation path">&#128992; IA</button>
+            </div>
+
+            <div class="search-container">
+               <input type="text" id="search" placeholder="Search for a course..." class="search-input" />
+               <div id="searchResults" class="search-results-dropdown"></div>
             </div>
          </div>
 
          <div id="adminPanel" class="admin-panel">
+            <div class="admin-mode-label">Admin Mode</div>
             <div id="adminPlaceholder" class="admin-placeholder">
-               <em>Please select a course from the graph or search above to edit its prerequisites.</em>
+               Select a course to edit its prerequisites
             </div>
 
             <div id="adminContent" class="hidden">
-               <h3 id="adminPanelTitle">Add prerequisite</h3>
+               <div class="admin-title-row">
+                  <h3 id="adminPanelTitle">Add prerequisite</h3>
+                  <button id="copyPrereqBtn" class="btn btn-copy" title="Copy prerequisites to clipboard">&#128203;</button>
+               </div>
                
                <div class="admin-section">
                   <input type="text" id="addPrereqSearch" placeholder="Type a course to add as a prerequisite..." class="admin-input" />
@@ -43,7 +56,8 @@
 
          <div id="legend"></div>
       </div>
-      <div id="graph"></div>
+      <div id="timeline" class="chart-container"></div>
+      <div id="graph" class="chart-container" style="display: none;"></div>
 
       <script src="app.js"></script>
    </body>

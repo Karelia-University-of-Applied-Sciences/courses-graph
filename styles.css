@@ -5,7 +5,7 @@ body {
 }
 
 #controls {
-   padding: 15px;
+   padding: 12px 15px;
    background-color: #f0fdf4;
    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
    position: fixed;
@@ -16,11 +16,84 @@ body {
 
 .top-bar {
    display: flex;
-   gap: 12px;
+   gap: 10px;
    align-items: center;
    justify-content: center;
-   max-width: 1200px;
+   max-width: 1400px;
    margin: 0 auto;
+   flex-wrap: wrap;
+}
+
+.view-toggle {
+   display: flex;
+   gap: 2px;
+   background: #e2e8f0;
+   border-radius: 8px;
+   padding: 2px;
+}
+
+.view-btn {
+   padding: 6px 14px;
+   border: none;
+   border-radius: 6px;
+   cursor: pointer;
+   font-weight: 600;
+   font-size: 13px;
+   background: transparent;
+   color: #64748b;
+   transition: all 0.2s;
+   white-space: nowrap;
+}
+
+.view-btn.active {
+   background: #fff;
+   color: #1e293b;
+   box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+.view-btn:hover:not(.active) {
+   color: #334155;
+}
+
+.spec-filter {
+   display: flex;
+   gap: 2px;
+   background: #e2e8f0;
+   border-radius: 8px;
+   padding: 2px;
+}
+
+.spec-btn {
+   padding: 6px 12px;
+   border: none;
+   border-radius: 6px;
+   cursor: pointer;
+   font-weight: 600;
+   font-size: 12px;
+   background: transparent;
+   color: #64748b;
+   transition: all 0.2s;
+   white-space: nowrap;
+}
+
+.spec-btn.active {
+   background: #fff;
+   color: #1e293b;
+   box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+.spec-btn.spec-se.active {
+   background: #3b82f6;
+   color: white;
+}
+
+.spec-btn.spec-ia.active {
+   background: #f97316;
+   color: white;
+}
+
+.spec-btn:hover:not(.active) {
+   color: #334155;
 }
 
 .btn {
@@ -41,33 +114,19 @@ body {
    background: #04aa0f;
 }
 
-.search-input {
+.search-container {
+   position: relative;
    flex: 1;
    max-width: 250px;
+}
+
+.search-input {
+   width: 100%;
    padding: 10px;
    border: 2px solid #e2e8f0;
    border-radius: 6px;
    outline: none;
-}
-
-.selection-box {
-   display: none;
-   padding: 10px 15px;
-   background: #ffffff;
-   border: 1px solid #86efac;
-   border-radius: 6px;
-   font-size: 14px;
-   color: #166534;
-   align-items: center;
-   gap: 10px;
-   grid-template-columns: auto 1fr auto;
-}
-
-#selectedCourseText {
-   overflow: hidden;
-   text-overflow: ellipsis;
-   white-space: nowrap;
-   min-width: 0;
+   box-sizing: border-box;
 }
 
 .btn-copy {
@@ -90,17 +149,33 @@ body {
    display: none;
    max-width: 800px;
    margin: 15px auto 0;
-   padding: 20px;
-   background: #f8fafc;
-   border: 1px solid #e2e8f0;
+   padding: 10px 20px;
+   background: #fef2f2;
+   border: 2px solid #ef4444;
    border-radius: 8px;
    text-align: left;
 }
 
+.admin-mode-label {
+   font-weight: 700;
+   color: #ef4444;
+   font-size: 13px;
+   text-transform: uppercase;
+   letter-spacing: 0.5px;
+   margin-bottom: 4px;
+}
+
 .admin-panel h3 {
-   margin: 0 0 15px 0;
+   margin: 0;
    font-size: 16px;
    color: #1e293b;
+}
+
+.admin-title-row {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   margin-bottom: 15px;
 }
 
 .admin-input {
@@ -121,19 +196,37 @@ body {
    display: none;
 }
 
+#searchResults {
+   position: absolute;
+   top: 100%;
+   left: 0;
+   right: 0;
+   z-index: 200;
+   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+#searchResults .search-result-item:hover {
+   background: #f1f5f9;
+}
+
 .prereq-list-container {
    margin-top: 15px;
    border-top: 1px solid #e2e8f0;
    padding-top: 15px;
 }
 
-#graph {
+.chart-container {
     width: 100vw;
     height: 100vh;
     position: absolute;
     top: 0;
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
+    cursor: grab;
+}
+
+.chart-container:active {
+    cursor: grabbing;
 }
 
 #legend {
@@ -144,11 +237,12 @@ body {
 }
 
 .admin-placeholder {
-   text-align: center;
-   padding: 20px;
-   color: #64748b;
-   font-style: italic;
-   font-size: 14px;
+   text-align: left;
+   padding: 0;
+   color: #1e293b;
+   font-style: normal;
+   font-size: 16px;
+   font-weight: 600;
 }
 
 .hidden {

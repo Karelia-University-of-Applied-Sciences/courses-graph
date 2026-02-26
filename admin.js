@@ -19,14 +19,9 @@ function selectCourseForAdmin(courseCode) {
    if (course) {
       currentSelectedCourse = courseCode;
 
-      const selectedCourseText = document.getElementById("selectedCourseText");
-      const selectedCourse = document.getElementById("selectedCourse");
-      selectedCourseText.textContent = `${course.code} - ${course.name}`;
-      selectedCourse.style.display = "grid";
-
       const adminTitle = document.getElementById("adminPanelTitle");
       if (adminTitle) {
-         adminTitle.textContent = `Add prerequisite for ${course.name} (${course.code})`;
+         adminTitle.textContent = `Add prerequisite for ${course.code} - ${course.name}`;
       }
 
       syncAdminUI();
@@ -35,23 +30,9 @@ function selectCourseForAdmin(courseCode) {
 }
 
 function setupAdminMode() {
-   const adminToggle = document.getElementById("adminToggle");
    const adminPanel = document.getElementById("adminPanel");
    const addPrereqSearch = document.getElementById("addPrereqSearch");
    const addPrereqResults = document.getElementById("addPrereqResults");
-
-   adminToggle.addEventListener("click", () => {
-      isAdminMode = !isAdminMode;
-      adminPanel.style.display = isAdminMode ? "block" : "none";
-      adminToggle.textContent = isAdminMode
-         ? "Exit Admin Mode"
-         : "Enter Admin Mode";
-      adminToggle.style.background = isAdminMode ? "#ef4444" : "";
-
-      if (isAdminMode) {
-         syncAdminUI();
-      }
-   });
 
    addPrereqSearch.addEventListener("input", (e) => {
       const searchTerm = e.target.value.toLowerCase().trim();
@@ -165,7 +146,7 @@ function updatePrereqList() {
             return `
             <div style="display: flex; justify-content: space-between; align-items: center; padding: 5px; margin: 5px 0; background: #f9f9f9; border-radius: 3px;">
                <span>${link.source} - ${course ? course.name : ""}</span>
-               <button onclick="removePrereq('${link.source}', '${currentSelectedCourse}')" style="padding: 3px 8px; background: #f44336; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 11px;">Remove Prerequisite</button>
+               <button onclick="removePrereq('${link.source}', '${currentSelectedCourse}')" style="padding: 3px 8px; background: transparent; border: none; cursor: pointer; font-size: 16px;" title="Remove prerequisite">🗑️</button>
             </div>
          `;
          })

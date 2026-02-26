@@ -4,7 +4,7 @@ function showLoading(show) {
    const legend = document.getElementById("legend");
    legend.innerHTML = "⏳ Syncing...";
    if (!show) {
-      legend.innerHTML = "Click or search for a course to view connections. Mouse wheel to zoom.";
+      legend.innerHTML = "&nbsp;";
    }
 }
 

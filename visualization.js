@@ -2,30 +2,34 @@ let chart;
 let originalOption;
 
 function setupGraph() {
-   const nodes = curriculum.courses.map((course) => ({
+   const courses = getFilteredCourses();
+   const nodes = courses.map((course) => ({
       id: course.code,
       name: course.name,
       code: course.code,
       credits: course.credits,
+      specialization: course.specialization,
       symbolSize: 30,
       label: {
          show: true,
-         fontSize: 10,
+         fontSize: 13,
          opacity: 1,
+         color: getSpecColor(course.specialization),
          textBorderColor: "#fff",
          textBorderWidth: 2,
       },
       itemStyle: {
-         color: "#4CAF50",
+         color: getSpecColor(course.specialization),
          opacity: 0,
       },
    }));
 
-   const links = getMergedGraph().map((link) => ({
+   const links = getFilteredLinks().map((link) => ({
       source: link.source,
       target: link.target,
       lineStyle: {
          curveness: 0.2,
+         color: getLinkColor(link),
       },
    }));
 
@@ -35,7 +39,8 @@ function setupGraph() {
       tooltip: {
          formatter: function (params) {
             if (params.dataType === "node") {
-               return `<strong>${params.data.code}</strong><br/>${params.data.credits} credits`;
+               const spec = getSpecLabel(params.data.specialization || 'common');
+               return `<strong>${params.data.code}</strong><br/>${params.data.credits} credits<br/><em>${spec}</em>`;
             }
             return "";
          },
@@ -50,11 +55,11 @@ function setupGraph() {
             label: {
                show: true,
                position: "inside",
-               fontSize: 9,
+               fontSize: 13,
                formatter: "{b}",
             },
             edgeSymbol: ["none", "arrow"],
-            edgeSymbolSize: 8,
+            edgeSymbolSize: 12,
             force: {
                repulsion: 1000,
                gravity: 0.4,
@@ -64,7 +69,7 @@ function setupGraph() {
             },
             emphasis: {
                label: {
-                  fontSize: 12,
+                  fontSize: 16,
                   fontWeight: "bold",
                },
             },
@@ -82,19 +87,24 @@ function setupGraph() {
    chart.on("click", function (params) {
       if (params.dataType === "node") {
          const courseCode = params.data.id;
-         const courseName = params.data.name;
 
          const searchInput = document.getElementById("search");
+         const searchResults = document.getElementById("searchResults");
          if (searchInput) {
-            searchInput.value = courseName;
+            searchInput.value = `${params.data.code} - ${params.data.name}`;
          }
+         if (searchResults) searchResults.style.display = "none";
 
          highlightNode(courseCode);
          selectCourseForAdmin(courseCode);
       }
    });
 
-   setupSearch();
+   chart.getZr().on("click", function (e) {
+      if (!e.target) {
+         deselectCourse();
+      }
+   });
 
    window.addEventListener("resize", function () {
       chart.resize();
@@ -102,7 +112,8 @@ function setupGraph() {
 }
 
 function highlightNode(nodeId) {
-   const links = getMergedGraph().map((link) => ({
+   const filteredCourses = getFilteredCourses();
+   const links = getFilteredLinks().map((link) => ({
       source: link.source,
       target: link.target,
       lineStyle: {
@@ -110,18 +121,18 @@ function highlightNode(nodeId) {
       },
    }));
 
-   const nodes = curriculum.courses.map((course) => ({
+   const nodes = filteredCourses.map((course) => ({
       id: course.code,
       name: course.name,
       code: course.code,
       credits: course.credits,
+      specialization: course.specialization,
       symbolSize: 30,
    }));
 
    const nodeDepths = new Map();
    const visitedPrereqs = new Set();
    const prerequisiteLinks = [];
-   const dependencyNodes = new Set();
 
    function findPrerequisites(currentNode, depth = 0) {
       if (visitedPrereqs.has(currentNode)) return;
@@ -141,12 +152,6 @@ function highlightNode(nodeId) {
 
    findPrerequisites(nodeId);
 
-   links.forEach((link) => {
-      if (link.source === nodeId) {
-         dependencyNodes.add(link.target);
-      }
-   });
-
    const maxDepth = Math.max(...Array.from(nodeDepths.values()), 0);
 
    const highlightedNodes = nodes.map((node) => {
@@ -156,14 +161,16 @@ function highlightNode(nodeId) {
 
       return {
          ...node,
+         z: isSelected ? 10 : isConnected ? 5 : 1,
          itemStyle: {
-            color: isSelected ? "#FF9800" : isConnected ? "#4CAF50" : "#ccc",
+            color: isSelected ? getSpecColor(node.specialization || 'common') : isConnected ? getSpecColor(node.specialization || 'common') : "#ccc",
             opacity: 0,
          },
          label: {
             show: true,
-            fontSize: isSelected ? 12 : isConnected ? 10 : 8,
+            fontSize: isSelected ? 16 : isConnected ? 14 : 11,
             fontWeight: isSelected ? "bold" : "normal",
+            color: isConnected ? getSpecColor(node.specialization || 'common') : "#ccc",
             opacity: isConnected ? 1 : 0.5,
             textBorderColor: "#fff",
             textBorderWidth: 2,
@@ -177,14 +184,14 @@ function highlightNode(nodeId) {
       );
 
       if (prereqLink) {
-         const invDepth = 1 - prereqLink.depth / (maxDepth + 1);
-         const opacity = maxDepth > 0 ? invDepth * 0.9 : 1;
+         const srcCourse = curriculum.courses.find((c) => c.code === link.source);
+         const linkColor = srcCourse ? getSpecColor(srcCourse.specialization) : "#94a3b8";
          return {
             ...link,
             lineStyle: {
-               color: "#FF5722",
-               width: invDepth * 3,
-               opacity: opacity,
+               color: linkColor,
+               width: 3,
+               opacity: 1,
                curveness: 0.2,
             },
          };
@@ -192,9 +199,9 @@ function highlightNode(nodeId) {
          return {
             ...link,
             lineStyle: {
-               color: "#ccc",
+               color: "#eee",
                width: 1,
-               opacity: 1,
+               opacity: 0.15,
                curveness: 0.2,
             },
          };
@@ -212,36 +219,15 @@ function highlightNode(nodeId) {
 }
 
 function resetGraph() {
-   chart.setOption(originalOption);
-}
-
-function setupSearch() {
-   const searchInput = document.getElementById("search");
-
-   searchInput.addEventListener("input", function (e) {
-      const searchTerm = e.target.value.toLowerCase().trim();
-      if (searchTerm === "") {
-         resetGraph();
-         return;
-      }
-      const matchedCourse = curriculum.courses.find(
-         (c) =>
-            c.code.toLowerCase().includes(searchTerm) ||
-            c.name.toLowerCase().includes(searchTerm),
-      );
-
-      if (matchedCourse) {
-         highlightNode(matchedCourse.code);
-         selectCourseForAdmin(matchedCourse.code);
-      }
-   });
+   if (chart && originalOption) chart.setOption(originalOption);
 }
 
 function refreshGraph() {
-   const newLinks = getMergedGraph().map((link) => ({
+   if (!chart) return;
+   const newLinks = getFilteredLinks().map((link) => ({
       source: link.source,
       target: link.target,
-      lineStyle: { curveness: 0.2 },
+      lineStyle: { curveness: 0.2, color: getLinkColor(link) },
    }));
 
    chart.setOption({

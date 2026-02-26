@@ -47,6 +47,9 @@ const graph = [
     { source: "KY10007", target: "KY10008" }, // Thesis Implementation -> Finalising
 
     { source: "IC10033", target: "IC10038" }, // Software Eng 2 -> Project Work
+    { source: "IC10037", target: "IC10038" }, // Mobile Development -> Project Work (SE)
+    { source: "IC10040", target: "IC10038" }, // Intelligent Automation -> Project Work (IA)
+    { source: "IC10041", target: "IC10038" }, // Business Process Mgmt -> Project Work (IA)
     { source: "IC10044", target: "KY10006" }, // Practical Training -> Thesis Planning
 
     { source: "IC10030", target: "IC10039" }, // IoT Cloud -> Smart Regions
