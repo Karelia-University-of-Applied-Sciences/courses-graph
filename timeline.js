@@ -239,6 +239,22 @@ function highlightTimelineNode(nodeId) {
    const usableHeight = containerHeight - marginY * 2;
    const yearSpacing = usableWidth / 3;
 
+   const nodeDepths = new Map();
+   visitedPrereqs.forEach((code) => {
+      const link = prereqLinks.find((pl) => pl.source === code || pl.target === code);
+   });
+   const nodeDepthMap = new Map();
+   nodeDepthMap.set(nodeId, -1);
+   prereqLinks.forEach((pl) => {
+      const srcDepth = pl.depth + 1;
+      if (!nodeDepthMap.has(pl.source) || nodeDepthMap.get(pl.source) > srcDepth) {
+         nodeDepthMap.set(pl.source, srcDepth);
+      }
+      if (!nodeDepthMap.has(pl.target) || nodeDepthMap.get(pl.target) > pl.depth) {
+         nodeDepthMap.set(pl.target, pl.depth);
+      }
+   });
+
    const nodes = [];
    Object.entries(yearGroups).forEach(([year, group]) => {
       const yearIdx = parseInt(year) - 1;
@@ -248,8 +264,11 @@ function highlightTimelineNode(nodeId) {
       group.forEach((course, idx) => {
          const y = marginY + (idx + 1) * ySpacing;
          const isSelected = course.code === nodeId;
-         const isPrereq = visitedPrereqs.has(course.code) && !isSelected;
+         const depth = nodeDepthMap.get(course.code);
+         const isPrereq = !isSelected && depth !== undefined;
          const isConnected = isSelected || isPrereq;
+         const labelOpacity = isSelected ? 1 : isPrereq ? Math.max(0.25, 1.0 - depth * 0.25) : 0.3;
+         const itemOpacity = isSelected ? 1 : isPrereq ? Math.max(0.3, 1.0 - depth * 0.25) : 0.4;
 
          nodes.push({
             id: course.code,
@@ -270,7 +289,7 @@ function highlightTimelineNode(nodeId) {
                fontSize: isSelected ? 15 : isConnected ? 13 : 11,
                fontWeight: isSelected ? "bold" : "normal",
                color: isConnected ? getSpecColor(course.specialization) : "#ccc",
-               opacity: isConnected ? 1 : 0.3,
+               opacity: labelOpacity,
                position: "right",
                distance: 8,
                formatter: function (p) {
@@ -281,16 +300,12 @@ function highlightTimelineNode(nodeId) {
                textBorderWidth: 2,
             },
             itemStyle: {
-               color: isSelected
-                  ? getSpecColor(course.specialization)
-                  : isConnected
-                  ? getSpecColor(course.specialization)
-                  : "#ddd",
+               color: isConnected ? getSpecColor(course.specialization) : "#ddd",
                borderColor: isSelected ? getSpecColor(course.specialization) : "#fff",
                borderWidth: isSelected ? 3 : 2,
                shadowBlur: isSelected ? 10 : 4,
                shadowColor: isSelected ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.15)",
-               opacity: isConnected ? 1 : 0.4,
+               opacity: itemOpacity,
             },
          });
       });
@@ -302,6 +317,9 @@ function highlightTimelineNode(nodeId) {
       );
 
       if (isPrereqLink) {
+         const depth = isPrereqLink.depth;
+         const opacity = Math.max(0.2, 1.0 - depth * 0.28);
+         const width = Math.max(1.5, 3 - depth * 0.4);
          const srcCourse = curriculum.courses.find((c) => c.code === link.source);
          const linkColor = srcCourse ? getSpecColor(srcCourse.specialization) : "#94a3b8";
          return {
@@ -309,8 +327,8 @@ function highlightTimelineNode(nodeId) {
             target: link.target,
             lineStyle: {
                color: linkColor,
-               width: 3,
-               opacity: 1,
+               width: width,
+               opacity: opacity,
                curveness: 0.15,
             },
          };
@@ -321,7 +339,7 @@ function highlightTimelineNode(nodeId) {
             lineStyle: {
                color: "#eee",
                width: 1,
-               opacity: 0.15,
+               opacity: 0.8,
                curveness: 0.15,
             },
          };
@@ -348,14 +366,12 @@ function refreshTimeline() {
 function setSpecFilter(filter) {
    currentSpecFilter = filter;
 
-   // Update button states
    document.querySelectorAll(".spec-btn").forEach((btn) => {
       btn.classList.remove("active");
    });
    const activeBtn = document.querySelector(`.spec-btn[data-filter="${filter}"]`);
    if (activeBtn) activeBtn.classList.add("active");
 
-   // Re-render the active view
    const currentView = document.querySelector('.view-btn.active')?.dataset?.view || 'timeline';
    if (currentView === "timeline" && timelineChart) {
       renderTimeline();

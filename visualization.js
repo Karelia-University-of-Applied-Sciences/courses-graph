@@ -156,14 +156,16 @@ function highlightNode(nodeId) {
 
    const highlightedNodes = nodes.map((node) => {
       const isSelected = node.id === nodeId;
-      const isPrerequisite = nodeDepths.has(node.id) && node.id !== nodeId;
+      const depth = nodeDepths.get(node.id);
+      const isPrerequisite = depth !== undefined && !isSelected;
       const isConnected = isSelected || isPrerequisite;
+      const labelOpacity = isSelected ? 1 : isPrerequisite ? Math.max(0.25, 1.0 - depth * 0.25) : 0.35;
 
       return {
          ...node,
          z: isSelected ? 10 : isConnected ? 5 : 1,
          itemStyle: {
-            color: isSelected ? getSpecColor(node.specialization || 'common') : isConnected ? getSpecColor(node.specialization || 'common') : "#ccc",
+            color: isConnected ? getSpecColor(node.specialization || 'common') : "#ccc",
             opacity: 0,
          },
          label: {
@@ -171,7 +173,7 @@ function highlightNode(nodeId) {
             fontSize: isSelected ? 16 : isConnected ? 14 : 11,
             fontWeight: isSelected ? "bold" : "normal",
             color: isConnected ? getSpecColor(node.specialization || 'common') : "#ccc",
-            opacity: isConnected ? 1 : 0.5,
+            opacity: labelOpacity,
             textBorderColor: "#fff",
             textBorderWidth: 2,
          },
@@ -184,14 +186,17 @@ function highlightNode(nodeId) {
       );
 
       if (prereqLink) {
+         const depth = prereqLink.depth;
+         const opacity = Math.max(0.2, 1.0 - depth * 0.28);
+         const width = Math.max(1.5, 3 - depth * 0.4);
          const srcCourse = curriculum.courses.find((c) => c.code === link.source);
          const linkColor = srcCourse ? getSpecColor(srcCourse.specialization) : "#94a3b8";
          return {
             ...link,
             lineStyle: {
                color: linkColor,
-               width: 3,
-               opacity: 1,
+               width: width,
+               opacity: opacity,
                curveness: 0.2,
             },
          };
@@ -201,7 +206,7 @@ function highlightNode(nodeId) {
             lineStyle: {
                color: "#eee",
                width: 1,
-               opacity: 0.15,
+               opacity: 0.08,
                curveness: 0.2,
             },
          };
