@@ -206,7 +206,7 @@ const curriculum = {
       "code": "IC10022",
       "name": "Web Programming",
       "credits": 5,
-      "year": 2,
+      "year": 1,
       "specialization": "common",
       "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10527?lang=en"
     },
