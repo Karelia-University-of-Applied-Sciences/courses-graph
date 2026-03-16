@@ -67,6 +67,14 @@ const curriculum = {
       "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10506?lang=en"
     },
     {
+      "code": "IC10011",
+      "name": "Digital Technology Essentials",
+      "credits": 5,
+      "year": 1,
+      "specialization": "common",
+      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10511?lang=en"
+    },
+    {
       "code": "IC10007",
       "name": "IT Infrastructure Architecture",
       "credits": 5,
@@ -99,14 +107,6 @@ const curriculum = {
       "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10510?lang=en"
     },
     {
-      "code": "IC10011",
-      "name": "Digital Technology Essentials",
-      "credits": 5,
-      "year": 1,
-      "specialization": "common",
-      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10511?lang=en"
-    },
-    {
       "code": "IC10012",
       "name": "Elementary Programming",
       "credits": 5,
@@ -123,12 +123,12 @@ const curriculum = {
       "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10513?lang=en"
     },
     {
-      "code": "IC10014",
-      "name": "User Interface Programming",
+      "code": "IC10022",
+      "name": "Web Programming",
       "credits": 5,
-      "year": 2,
+      "year": 1,
       "specialization": "common",
-      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10514?lang=en"
+      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10527?lang=en"
     },
     {
       "code": "IC10015",
@@ -171,14 +171,6 @@ const curriculum = {
       "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10521?lang=en"
     },
     {
-      "code": "IC10018",
-      "name": "Data Structures and Algorithms",
-      "credits": 5,
-      "year": 2,
-      "specialization": "common",
-      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10523?lang=en"
-    },
-    {
       "code": "IC10019",
       "name": "Engineering Mathematics",
       "credits": 5,
@@ -203,20 +195,36 @@ const curriculum = {
       "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10526?lang=en"
     },
     {
-      "code": "IC10022",
-      "name": "Web Programming",
+      "code": "IC10014",
+      "name": "User Interface Programming",
       "credits": 5,
-      "year": 1,
-      "specialization": "common",
-      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10527?lang=en"
-    },
-    {
-      "code": "IC10023",
-      "name": "Applied Networks (3cr + Introduction to Networks 3cr)",
-      "credits": 6,
       "year": 2,
       "specialization": "common",
-      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10528?lang=en"
+      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10514?lang=en"
+    },
+    {
+      "code": "IC10018",
+      "name": "Data Structures and Algorithms",
+      "credits": 5,
+      "year": 2,
+      "specialization": "common",
+      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10523?lang=en"
+    },
+    {
+      "code": "IC10054",
+      "name": "Introduction to Networks",
+      "credits": 3,
+      "year": 2,
+      "specialization": "common",
+      "url": "https://opintoopas.karelia.fi/"
+    },
+    {
+      "code": "IC10055",
+      "name": "Applied Networks",
+      "credits": 3,
+      "year": 2,
+      "specialization": "common",
+      "url": "https://opintoopas.karelia.fi/"
     },
     {
       "code": "IC10024",
@@ -283,12 +291,12 @@ const curriculum = {
       "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10546?lang=en"
     },
     {
-      "code": "IC10032",
-      "name": "Machine Learning and Data Mining",
-      "credits": 5,
+      "code": "IC10043",
+      "name": "Research and Development Methodologies",
+      "credits": 3,
       "year": 3,
       "specialization": "common",
-      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10547?lang=en"
+      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10566?lang=en"
     },
     {
       "code": "IC10033",
@@ -331,12 +339,12 @@ const curriculum = {
       "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10552?lang=en"
     },
     {
-      "code": "IC10038",
-      "name": "Project Work",
-      "credits": 15,
+      "code": "IC10032",
+      "name": "Machine Learning and Data Mining",
+      "credits": 5,
       "year": 3,
       "specialization": "common",
-      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10554?lang=en"
+      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10547?lang=en"
     },
     {
       "code": "IC10039",
@@ -347,20 +355,20 @@ const curriculum = {
       "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10555?lang=en"
     },
     {
-      "code": "IC10040",
-      "name": "Intelligent Automation",
-      "credits": 5,
-      "year": 3,
-      "specialization": "ia",
-      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10556?lang=en"
-    },
-    {
       "code": "IC10041",
       "name": "Business Process Management and Workflow Automation",
       "credits": 5,
       "year": 3,
       "specialization": "ia",
       "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10557?lang=en"
+    },
+    {
+      "code": "IC10040",
+      "name": "Intelligent Automation",
+      "credits": 5,
+      "year": 3,
+      "specialization": "ia",
+      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10556?lang=en"
     },
     {
       "code": "IC10042",
@@ -371,12 +379,12 @@ const curriculum = {
       "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10565?lang=en"
     },
     {
-      "code": "IC10043",
-      "name": "Research and Development Methodologies",
-      "credits": 3,
+      "code": "IC10038",
+      "name": "Project Work (Year 3)",
+      "credits": 15,
       "year": 4,
       "specialization": "common",
-      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10566?lang=en"
+      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10554?lang=en"
     },
     {
       "code": "IC10044",
@@ -387,60 +395,12 @@ const curriculum = {
       "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10567?lang=en"
     },
     {
-      "code": "IC10045",
-      "name": "Socio-Economics and ICT in supporting Decision Making for Regional Development",
-      "credits": 5,
-      "year": 4,
-      "specialization": "common",
-      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10568?lang=en"
-    },
-    {
-      "code": "IC10046",
-      "name": "Innovative Monitoring Systems for the Environment",
-      "credits": 5,
-      "year": 4,
-      "specialization": "common",
-      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10569?lang=en"
-    },
-    {
-      "code": "IC10047",
-      "name": "Networks and Digital Systems for Rural and Regional Development",
-      "credits": 6,
-      "year": 4,
-      "specialization": "common",
-      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10570?lang=en"
-    },
-    {
-      "code": "IC10048",
-      "name": "Regional Sustainability using Innovative ICT",
-      "credits": 6,
-      "year": 4,
-      "specialization": "common",
-      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10571?lang=en"
-    },
-    {
-      "code": "IC10049",
-      "name": "Modelling and Simulation for Wicked Problems in Regional Sustainability",
-      "credits": 6,
-      "year": 4,
-      "specialization": "common",
-      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10572?lang=en"
-    },
-    {
-      "code": "IC10050",
-      "name": "Language and Cultural Awareness Host Country",
-      "credits": 2,
-      "year": 4,
-      "specialization": "common",
-      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10573?lang=en"
-    },
-    {
-      "code": "IC10051",
-      "name": "Research project in Living Lab UTH",
+      "code": "_______",
+      "name": "Electives",
       "credits": 15,
       "year": 4,
       "specialization": "common",
-      "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10574?lang=en"
+      "url": "https://opintoopas.karelia.fi/"
     },
     {
       "code": "KY10006",
@@ -465,6 +425,6 @@ const curriculum = {
       "year": 4,
       "specialization": "common",
       "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/8207?lang=en"
-    }
+    },
   ]
 }
