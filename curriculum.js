@@ -212,7 +212,7 @@ const curriculum = {
     },
     {
       "code": "IC10023",
-      "name": "Applied Networks",
+      "name": "Applied Networks (3cr + Introduction to Networks 3cr)",
       "credits": 6,
       "year": 2,
       "specialization": "common",
