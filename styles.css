@@ -132,17 +132,25 @@ body {
 .btn-copy {
    background: #3b82f6;
    color: white;
-   padding: 6px 12px;
-   font-size: 12px;
-   margin-left: auto;
+   width: 44px;
+   height: 40px;
+   padding: 0;
+   font-size: 16px;
+   line-height: 1;
+   flex-shrink: 0;
 }
 
-.btn-copy:hover {
+.btn-copy:hover:not(:disabled) {
    background: #2563eb;
 }
 
-.btn-copy:active {
+.btn-copy:active:not(:disabled) {
    background: #1d4ed8;
+}
+
+.btn-copy:disabled {
+   background: #cbd5e1;
+   cursor: not-allowed;
 }
 
 .admin-panel {

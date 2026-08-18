@@ -371,6 +371,14 @@ const curriculum = {
       "url": "https://opintoopas.karelia.fi/47/en/91/109838/508/0/10556?lang=en"
     },
     {
+      "code": "123456",
+      "name": "AI Programming",
+      "credits": 5,
+      "year": 3,
+      "specialization": "common",
+      "url": "https://opintoopas.karelia.fi/todo"
+    },
+    {
       "code": "IC10042",
       "name": "Career Planning and Development 3",
       "credits": 2,

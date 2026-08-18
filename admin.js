@@ -4,6 +4,9 @@ let currentSelectedCourse = null;
 function syncAdminUI() {
    const content = document.getElementById("adminContent");
    const placeholder = document.getElementById("adminPlaceholder");
+   const copyBtn = document.getElementById("copyPrereqBtn");
+
+   if (copyBtn) copyBtn.disabled = !currentSelectedCourse;
 
    if (!currentSelectedCourse) {
       content?.classList.add("hidden");
@@ -209,7 +212,7 @@ function setupCopyPrerequisites() {
          await navigator.clipboard.writeText(text);
          
          const originalText = copyBtn.textContent;
-         copyBtn.textContent = "✓ Copied!";
+         copyBtn.textContent = "✓";
          copyBtn.style.background = "#10b981";
          
          setTimeout(() => {
