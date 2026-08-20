@@ -96,6 +96,7 @@ function setupAdminMode() {
 
          await saveCustomGraph();
          refreshGraph();
+         refreshDoc();
          highlightNode(targetCode);
          updatePrereqList();
          
@@ -177,6 +178,7 @@ window.removePrereq = async function (source, target) {
 
    await saveCustomGraph();
    refreshGraph();
+   refreshDoc();
    updatePrereqList();
 };
 
@@ -204,7 +206,7 @@ function setupCopyPrerequisites() {
             const prereqCourse = curriculum.courses.find(
                (c) => c.code === link.source,
             );
-            text += `${index + 1}. ${link.source} - ${prereqCourse ? prereqCourse.name : "Unknown"}\n`;
+            text += `${index + 1}. ${prereqCourse ? courseLabel(prereqCourse) : link.source}\n`;
          });
       }
 

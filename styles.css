@@ -24,7 +24,8 @@ body {
    flex-wrap: wrap;
 }
 
-.view-toggle {
+.view-toggle,
+.spec-filter {
    display: flex;
    gap: 2px;
    background: #e2e8f0;
@@ -53,14 +54,6 @@ body {
 
 .view-btn:hover:not(.active) {
    color: #334155;
-}
-
-.spec-filter {
-   display: flex;
-   gap: 2px;
-   background: #e2e8f0;
-   border-radius: 8px;
-   padding: 2px;
 }
 
 .spec-btn {
@@ -153,6 +146,24 @@ body {
    cursor: not-allowed;
 }
 
+.code-toggle {
+   display: flex;
+   align-items: center;
+   gap: 6px;
+   font-size: 12px;
+   font-weight: 600;
+   color: #64748b;
+   cursor: pointer;
+   white-space: nowrap;
+   user-select: none;
+}
+
+.code-toggle input {
+   margin: 0;
+   cursor: pointer;
+   accent-color: #04aa0f;
+}
+
 .admin-panel {
    display: none;
    max-width: 800px;
@@ -238,6 +249,53 @@ body {
 
 .chart-container:active {
     cursor: grabbing;
+}
+
+.doc-container {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100vw;
+   height: 100vh;
+   overflow: auto;
+   box-sizing: border-box;
+   background: #fff;
+   opacity: 0;
+   transition: opacity 0.5s ease-in-out;
+}
+
+.doc-page {
+   display: grid;
+   grid-template-columns: repeat(4, max-content);
+   gap: 0 48px;
+   width: max-content;
+   margin: 0 auto;
+   padding: 0 24px 80px;
+   font-family: Consolas, "SF Mono", Menlo, monospace;
+   font-size: 14px;
+   line-height: 1.7;
+   color: #1e293b;
+}
+
+.doc-year {
+   margin: 0 0 8px;
+   padding-bottom: 4px;
+   font-weight: 700;
+   font-size: 16px;
+   color: #04aa0f;
+   border-bottom: 2px solid #e2e8f0;
+}
+
+.doc-course {
+   margin-top: 14px;
+   font-weight: 600;
+   white-space: nowrap;
+}
+
+.doc-prereq {
+   padding-left: 36px;
+   color: #64748b;
+   white-space: nowrap;
 }
 
 #legend {

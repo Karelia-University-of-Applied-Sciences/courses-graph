@@ -377,6 +377,8 @@ function setSpecFilter(filter) {
       renderTimeline();
    } else if (currentView === "graph" && chart) {
       setupGraphWithFilter();
+   } else if (currentView === "doc") {
+      renderDoc();
    }
 }
 

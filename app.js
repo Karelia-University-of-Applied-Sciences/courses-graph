@@ -1,4 +1,4 @@
-let currentView = "timeline"; // "timeline" or "graph"
+let currentView = "timeline"; // "timeline", "graph" or "doc"
 
 function isAdminAuthorized() {
    const params = new URLSearchParams(window.location.search);
@@ -14,34 +14,35 @@ function deselectCourse() {
 
    if (currentView === "timeline") {
       renderTimeline();
-   } else {
+   } else if (currentView === "graph") {
       resetGraph();
    }
 }
 
 function switchView(view) {
    currentView = view;
-   const timelineDiv = document.getElementById("timeline");
-   const graphDiv = document.getElementById("graph");
 
    document.querySelectorAll(".view-btn").forEach((btn) => {
       btn.classList.toggle("active", btn.dataset.view === view);
    });
 
+   ["timeline", "graph", "doc"].forEach((name) => {
+      if (name === view) return;
+      const div = document.getElementById(name);
+      div.style.display = "none";
+      div.style.opacity = "0";
+   });
+
+   const activeDiv = document.getElementById(view);
+   activeDiv.style.display = "block";
+
    if (view === "timeline") {
-      graphDiv.style.display = "none";
-      graphDiv.style.opacity = "0";
-      timelineDiv.style.display = "block";
       if (!timelineChart) {
          setupTimeline();
       } else {
          refreshTimeline();
       }
-      setTimeout(() => { timelineDiv.style.opacity = "1"; }, 50);
-   } else {
-      timelineDiv.style.display = "none";
-      timelineDiv.style.opacity = "0";
-      graphDiv.style.display = "block";
+   } else if (view === "graph") {
       if (!chart) {
          setupGraph();
       } else {
@@ -50,8 +51,11 @@ function switchView(view) {
       if (currentSelectedCourse) {
          highlightNode(currentSelectedCourse);
       }
-      setTimeout(() => { graphDiv.style.opacity = "1"; }, 50);
+   } else {
+      renderDoc();
    }
+
+   setTimeout(() => { activeDiv.style.opacity = "1"; }, 50);
 }
 
 function setupViewToggle() {
@@ -73,7 +77,7 @@ function setupSpecFilter() {
 function selectCourse(courseCode) {
    if (currentView === "timeline") {
       highlightTimelineNode(courseCode);
-   } else {
+   } else if (currentView === "graph") {
       highlightNode(courseCode);
    }
    selectCourseForAdmin(courseCode);
@@ -144,6 +148,7 @@ async function init() {
 
    setupAdminMode();
    setupCopyPrerequisites();
+   setupDoc();
    setupViewToggle();
    setupSpecFilter();
    setupSearchBoth();

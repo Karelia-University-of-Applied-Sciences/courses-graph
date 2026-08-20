@@ -11,6 +11,7 @@
       <script src="admin.js"></script>
       <script src="visualization.js"></script>
       <script src="timeline.js"></script>
+      <script src="doc.js"></script>
       <link rel="stylesheet" href="styles.css" />
    </head>
    <body>
@@ -19,6 +20,7 @@
             <div class="view-toggle">
                <button class="view-btn active" data-view="timeline" title="Timeline View">Timeline</button>
                <button class="view-btn" data-view="graph" title="Force Graph View">Graph</button>
+               <button class="view-btn" data-view="doc" title="Document View">Doc</button>
             </div>
 
             <div class="spec-filter">
@@ -33,6 +35,11 @@
             </div>
 
             <button id="copyPrereqBtn" class="btn btn-copy" title="Copy prerequisites to clipboard" disabled>&#128203;</button>
+
+            <label class="code-toggle">
+               <input type="checkbox" id="showCodes" />
+               show codes
+            </label>
          </div>
 
          <div id="adminPanel" class="admin-panel">
@@ -59,6 +66,7 @@
       </div>
       <div id="timeline" class="chart-container"></div>
       <div id="graph" class="chart-container" style="display: none;"></div>
+      <div id="doc" class="doc-container" style="display: none;"></div>
 
       <script src="app.js"></script>
    </body>
