@@ -19,6 +19,7 @@ async function loadCustomGraph() {
    try {
       const response = await fetch(`${API_URL}${BIN_ID}/latest`, {
          method: "GET",
+         cache: "no-store",
          headers: {
             "X-Master-Key": API_KEY,
          },

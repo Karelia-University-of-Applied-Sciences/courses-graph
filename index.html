@@ -2,17 +2,38 @@
 <html>
    <head>
       <meta charset="UTF-8" />
+      <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+      <meta http-equiv="Pragma" content="no-cache" />
+      <meta http-equiv="Expires" content="0" />
       <title>Karelia Course Graph</title>
       <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
-      <script src="curriculum.js"></script>
-      <script src="graph.js"></script>
-      <script src="config.js"></script>
-      <script src="storage.js"></script>
-      <script src="admin.js"></script>
-      <script src="visualization.js"></script>
-      <script src="timeline.js"></script>
-      <script src="doc.js"></script>
-      <link rel="stylesheet" href="styles.css" />
+      <script>
+         (() => {
+            const bust = Date.now();
+            const assets = [
+               "styles.css",
+               "curriculum.js",
+               "graph.js",
+               "config.js",
+               "storage.js",
+               "admin.js",
+               "visualization.js",
+               "timeline.js",
+               "doc.js",
+               "app.js",
+            ];
+
+            document.write(
+               assets
+                  .map((asset) =>
+                     asset.endsWith(".css")
+                        ? `<link rel="stylesheet" href="${asset}?t=${bust}" />`
+                        : `<script src="${asset}?t=${bust}"><\/script>`
+                  )
+                  .join("")
+            );
+         })();
+      </script>
    </head>
    <body>
       <div id="controls">
@@ -38,7 +59,7 @@
 
             <label class="code-toggle">
                <input type="checkbox" id="showCodes" />
-               show codes
+               include course codes
             </label>
          </div>
 
@@ -67,7 +88,5 @@
       <div id="timeline" class="chart-container"></div>
       <div id="graph" class="chart-container" style="display: none;"></div>
       <div id="doc" class="doc-container" style="display: none;"></div>
-
-      <script src="app.js"></script>
    </body>
 </html>
